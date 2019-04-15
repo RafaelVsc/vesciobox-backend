@@ -20,7 +20,11 @@ const File = new mongoose.Schema(
 
 //criando um campo virtual, não existe na tabela do mongo, mas sim no lado do backend
 File.virtual('url').get(function () {
-    return `http://localhost:3333/files/${encodeURIComponent(this.path)}`;
+    const url = process.env.URL ||
+
+        process.env.PORT || 'http://localhost:3333'
+
+    return `${url}/files/${encodeURIComponent(this.path)}`;
 });
 
 module.exports = mongoose.model("File", File);
